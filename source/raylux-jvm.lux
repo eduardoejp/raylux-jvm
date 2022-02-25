@@ -1,0 +1,129 @@
+(.using
+ [library
+  [lux "*"
+   [ffi {"+" import:}]]])
+
+
+...
+... Java imports
+...
+
+(import: java/lang/String)
+
+...
+... Color
+...
+
+(import: com/raylib/Jaylib$Color
+  ["Jaylib/Color::[0]"
+    (new [int int int int])
+    (r [] int)
+    (g [] int)
+    (b [] int)
+    (a [] int))
+
+(type: .public Color
+  com/raylib/Jaylib$Color)
+
+(def: .public (color r g b a)
+  (-> Int Int Int Int Color)
+  (Jaylib/Color::new r g b a))
+
+(def: .public (r it)
+  (-> Color Int)
+  (Jaylib/Color::r it))
+
+(def: .public (g it)
+  (-> Color Int)
+  (Jaylib/Color::g it))
+
+(def: .public (b it)
+  (-> Color Int)
+  (Jaylib/Color::b it))
+
+(def: .public (a it)
+  (-> Color Int)
+  (Jaylib/Color::a it))
+
+...
+... Colors
+...
+
+(def: .public LIGHTGRAY
+  Color
+  (color +200 +200 +200 +255))
+
+(def: .public RAYWHITE
+  Color
+  (color +245 +245 +245 +255))
+
+...
+... Vector3
+...
+
+(import: com/raylib/Jaylib$Vector3
+  ["Jaylib/Vector3::[0]"
+   (new [float float float])
+   (x [] float)
+   (y [] float)
+   (z [] float)])
+
+(type: .public Vector3
+  com/raylib/Jaylib$Vector3)
+
+(def: .public (vector x y z)
+  (-> Frac Frac Frac Vector3)
+  (Jaylib/Vector3::new x y z))
+
+(def: .public (x it)
+  (-> Vector3 Frac)
+  (Jaylib/Vector3::x it))
+
+(def: .public (y it)
+  (-> Vector3 Frac)
+  (Jaylib/Vector3::y it))
+
+(def: .public (z it)
+  (-> Vector3 Frac)
+  (Jaylib/Vector3::z it))
+
+...
+... Core
+...
+
+(import: com/raylib/Raylib/Core
+  ["Raylib/Core::[0]"]
+
+  ... window handling
+  (InitWindow [int int java/lang/String])
+  (WindowShouldClose [] boolean)
+  (CloseWindow [])
+  
+  ... fps
+  (SetTargetFPS [fps])
+
+  ... drawing
+  (BeginDrawing [])
+  (EndDrawing [])
+  (DrawText [java/lang/String int int int Color]))
+
+(def: .public (InitWindow w h title)
+  (Raylib/Core::InitWindow w h title))
+
+(def: .public (WindowShouldClose)
+  (Raylib/Core::WindowShouldClose))
+
+(def: .public (CloseWindow)
+  (Raylib/Core::CloseWindow))
+
+(def: .public (SetTargetFPS fps)
+  (Raylib/Core::SetTargetFPS fps))
+
+(def: .public (BeginDrawing)
+  (Raylib/Core::BeginDrawing))
+
+(def: .public (EndDrawing)
+  (Raylib/Core::EndDrawing))
+
+(def: .public (DrawText text x y size color)
+  (Raylib/Core::DrawText text x y size color))

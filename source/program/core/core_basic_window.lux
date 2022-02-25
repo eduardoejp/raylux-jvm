@@ -1,0 +1,29 @@
+(.using
+ [library
+  [lux "*"
+   [program {"+" program:}]
+   ["[0]" debug]
+   [control
+    ["[0]" io]]
+   [data
+    ["[0]" bit]]]]
+ [raylux-jvm "*"])
+
+(def: screen_width 800)
+(def: screen_height 450)
+
+(program: args
+  (let [screen_width 800
+        screen_height 450]
+    (exec 
+      (InitWindow screen_width screen_height "raylib [core] example - basic window")
+      (SetTargetFPS 60)
+      (loop [should_close (WindowShouldClose)]
+        (if (bit.= should_close true)
+          (CloseWindow)
+          (exec
+            (BeginDrawing)
+            (DrawText "Congrats! You created your first window!" 190 200 20 LIGHTGRAY)
+            (EndDrawing)
+            (recur (WindowShouldClose))))))))
+

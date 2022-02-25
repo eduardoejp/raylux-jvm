@@ -1,0 +1,15 @@
+[""
+ ["identity" ["com.github.ahedgewitch" "raylux-jvm" "0.0.1-SNAPSHOT"]
+  "repositories" ["https://oss.sonatype.org/content/repositories/snapshots/"
+                  "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+
+                  "electron-studio-jaylib" "https://dl.cloudsmith.io/public/electron-studio/jaylib/maven/"]
+ 
+  "compiler" ["com.github.luxlang" "lux-jvm" "0.6.5" "jar"]
+  "dependencies" [["com.github.luxlang" "stdlib" "0.6.5" "tar"]
+                  ["uk.co.electronstudio.jaylib" "jaylib" "4.0.0-0" "jar"]
+                  ["uk.co.electronstudio.jaylib" "jaylib-natives-windows-x86_64" "4.0.0-0" "jar"]]]
+                  
+"core_basic_window"
+ ["info" ["description" "raylib [core] example - basic window"]
+  "program" "program/core/core_basic_window"]]
