@@ -14,36 +14,34 @@
 ... Color
 ...
 
+(import: com/raylib/Raylib$Color
+  ["c/Color::[0]"
+   (r [] byte)
+   (g [] byte)
+   (b [] byte)
+   (a [] byte)])
+
 (import: com/raylib/Jaylib$Color
-  ["Jaylib/Color::[0]"
-    (new [int int int int])
-    (r [] int)
-    (g [] int)
-    (b [] int)
-    (a [] int))
+  ["java/Color::[0]"
+   (new [int int int int])])
 
 (type: .public Color
   com/raylib/Jaylib$Color)
 
 (def: .public (color r g b a)
-  (-> Int Int Int Int Color)
-  (Jaylib/Color::new r g b a))
+  (-> Nat Nat Nat Nat Color)
+  (java/Color::new (.int r) (.int g) (.int b) (.int a)))
 
-(def: .public (r it)
-  (-> Color Int)
-  (Jaylib/Color::r it))
+(template [<name> <method>]
+  [(def: .public (<name> it)
+     (-> Color Nat)
+     (.nat (<method> it)))]
 
-(def: .public (g it)
-  (-> Color Int)
-  (Jaylib/Color::g it))
-
-(def: .public (b it)
-  (-> Color Int)
-  (Jaylib/Color::b it))
-
-(def: .public (a it)
-  (-> Color Int)
-  (Jaylib/Color::a it))
+  [r c/Color::r]
+  [g c/Color::g]
+  [b c/Color::b]
+  [a c/Color::a]
+  )
 
 ...
 ... Colors
@@ -51,79 +49,88 @@
 
 (def: .public LIGHTGRAY
   Color
-  (color +200 +200 +200 +255))
+  (color 200 200 200 255))
 
 (def: .public RAYWHITE
   Color
-  (color +245 +245 +245 +255))
+  (color 245 245 245 255))
 
 ...
 ... Vector3
 ...
 
-(import: com/raylib/Jaylib$Vector3
-  ["Jaylib/Vector3::[0]"
-   (new [float float float])
+(import: com/raylib/Raylib$Vector3
+  ["c/Vector3::[0]"
    (x [] float)
    (y [] float)
    (z [] float)])
+
+(import: com/raylib/Jaylib$Vector3
+  ["java/Vector3::[0]"
+   (new [float float float])])
 
 (type: .public Vector3
   com/raylib/Jaylib$Vector3)
 
 (def: .public (vector x y z)
   (-> Frac Frac Frac Vector3)
-  (Jaylib/Vector3::new x y z))
+  (java/Vector3::new x y z))
 
 (def: .public (x it)
   (-> Vector3 Frac)
-  (Jaylib/Vector3::x it))
+  (c/Vector3::x it))
 
 (def: .public (y it)
   (-> Vector3 Frac)
-  (Jaylib/Vector3::y it))
+  (c/Vector3::y it))
 
 (def: .public (z it)
   (-> Vector3 Frac)
-  (Jaylib/Vector3::z it))
+  (c/Vector3::z it))
 
 ...
 ... Core
 ...
 
-(import: com/raylib/Raylib/Core
-  ["Raylib/Core::[0]"]
+(import: com/raylib/Raylib
+  ["Raylib/Core::[0]"
+   ... window handling
+   ("static" InitWindow [int int java/lang/String] void)
+   ("static" WindowShouldClose [] boolean)
+   ("static" CloseWindow [] void)
+   
+   ... fps
+   ("static" SetTargetFPS [int] void)
 
-  ... window handling
-  (InitWindow [int int java/lang/String])
-  (WindowShouldClose [] boolean)
-  (CloseWindow [])
-  
-  ... fps
-  (SetTargetFPS [fps])
-
-  ... drawing
-  (BeginDrawing [])
-  (EndDrawing [])
-  (DrawText [java/lang/String int int int Color]))
+   ... drawing
+   ("static" BeginDrawing [] void)
+   ("static" EndDrawing [] void)
+   ("static" DrawText [java/lang/String int int int com/raylib/Raylib$Color] void)])
 
 (def: .public (InitWindow w h title)
-  (Raylib/Core::InitWindow w h title))
+  (-> Nat Nat Text Any)
+  (Raylib/Core::InitWindow (.int w) (.int h) title))
 
-(def: .public (WindowShouldClose)
+(def: .public (WindowShouldClose _)
+  (-> Any Bit)
   (Raylib/Core::WindowShouldClose))
 
-(def: .public (CloseWindow)
+(def: .public (CloseWindow _)
+  (-> Any Any)
   (Raylib/Core::CloseWindow))
 
 (def: .public (SetTargetFPS fps)
-  (Raylib/Core::SetTargetFPS fps))
+  (-> Nat Any)
+  (Raylib/Core::SetTargetFPS (.int fps)))
 
-(def: .public (BeginDrawing)
+(def: .public (BeginDrawing _)
+  (-> Any Any)
   (Raylib/Core::BeginDrawing))
 
-(def: .public (EndDrawing)
+(def: .public (EndDrawing _)
+  (-> Any Any)
   (Raylib/Core::EndDrawing))
 
 (def: .public (DrawText text x y size color)
-  (Raylib/Core::DrawText text x y size color))
+  (-> Text Nat Nat Nat Color Any)
+  (Raylib/Core::DrawText text (.int x) (.int y) (.int size) color))
